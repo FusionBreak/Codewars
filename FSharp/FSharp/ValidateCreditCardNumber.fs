@@ -10,31 +10,13 @@ module ValidateCreditCardNumber =
         input
         |> String.filter (fun letter -> letter <> ' ')
         |> Seq.map (fun a -> System.Int32.Parse(string a))
-    
-    let doubleIfSecond digit index =
-        if index % 2 = 0 then
-            digit
-        else
-            digit * 2
-            
-    let replaceGreaterThenNine digit =
-        if digit > 9 then
-            digit - 9
-        else
-            digit
-    
-    let doubleDigits input =
-        input
-        |> Seq.rev
-        |> Seq.mapi (fun index digit -> doubleIfSecond digit index)
-        |> Seq.rev
         
     let validate str =
         let code = toIntArray str
         let checksum = 
             code
-            |> doubleDigits
-            |> Seq.map (replaceGreaterThenNine)
+            |> Seq.mapi (fun index digit -> if index % 2 = 0 then digit * 2 else digit)
+            |> Seq.map (fun digit ->if digit > 9 then digit - 9 else digit)
             |> Seq.sum      
         checksum % 10 = 0
         

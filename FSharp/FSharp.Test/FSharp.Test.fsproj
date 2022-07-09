@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <Compile Include="ValidateCreditCardNumberTests.fs" />
+    <Compile Include="DescendingOrderTests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
